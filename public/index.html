@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Minecraft Server</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet" />
+<link href="style.css" rel="stylesheet"/>
+<link rel="shortcut icon" href="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+async function postToServer() {
+  await fetch("api/bash", { method: "post" }).catch(console.log);
+}
+
+async function notifyOwner(ele) {
+  const name = document.getElementById("name");
+  const context = document.getElementById("context");
+  await fetch("api/notify", { 
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({sub: name.value, cont: context.value})
+  }).catch(console.log);
+}
+</script>
+<script>
+function myPopupFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
+<script>
+function myCountDown() {
+  document.getElementById("myBtn").disabled = true;
+  var countDownDat = new Date();
+  var countDownDate = new Date(countDownDat.getTime() + 3*60000).getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById("myPopup").innerHTML ="The server is turning ON<br>please wait " + minutes + "m " + seconds + "s ";
+    
+    if (distance < 0) {
+      document.getElementById("myBtn").disabled = false;
+      clearInterval(x);
+      window.location.reload();
+    }
+  }, 1000);
+}
+</script>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<script src="script.js"></script>
+</head>
+<body>
+<div class="card">
+  <div class="icon"><img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg"></div>
+  <div class="header">
+    <div class="image"> <img src="https://res.cloudinary.com/lmn/image/upload/e_sharpen:100/f_auto,fl_lossy,q_auto/v1/gameskinnyc/u/n/t/untitled-a5150.jpg" alt="" /> </div> 
+      <h2>andreraspberry.ddns.net</h2>
+    </div>
+    <div class='popup' style="margin-top:20px" id="rest"></div>
+      <button id="buttonNotify" class="open-button" onclick="openForm()">Notify Owner</button>
+    </div>
+    <div class="form-popup" id="myForm">
+      <form class="form-container" name="form-owner">
+        <h1>Notify Owner</h1>
+        <label><b>Name</b></label>
+        <input id="name" style="width:90%" type="text" placeholder="Enter your name" required>
+        <label><b>Message</b></label>
+        <input id="context" style="width:90%" type="text" placeholder="Enter Reason" required>
+        <button type="submit" class="btn" onclick="notifyOwner(this)">Submit</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
+  </div>
+  <div class="schedule">
+    <div class="schedule-container">
+      <h1 style="text-align:center; font-family:'Robot Mono', monospace">Schedule</h1>
+      <p style="color:green"><b>Opens at:</b></p>
+      <p style="margin-left:30px">10:00 GMT+00:00</p>
+      <p style="color:red"><b>Closes due to idle at:</b></p>
+      <p style="margin-left:30px">22:00 GMT+00:00</p>
+      <br><p style="text-algin:center">The idle time is set for 30 minutes</p>
+    </div>
+  </div>
+</div> 
+</body>
+</html>

@@ -1,0 +1,85 @@
+const express = require('express')
+const child_process = require('child_process')
+const app = express()
+const port = 80
+'use strict';
+var request = require('request');
+
+var url = 'https://api.github.com/users/rsp';
+
+request.get({
+    url: url,
+    json: true,
+    headers: {'User-Agent': 'request'}
+  }, (err, res, data) => {
+    if (err) {
+      console.log('Error:', err);
+    } else if (res.statusCode !== 200) {
+      console.log('Status:', res.statusCode);
+    } else {
+      // data is already parsed as JSON:
+      console.log(data.html_url);
+    }
+});
+app.use(express.static('public'))
+
+app.get('/', (req, res) => {
+  res.send('');
+})
+
+app.post("/api/bash", async (req, res) => {
+  try{
+    console.log("Started Server");
+    child_process.execSync('sudo systemctl start minecraft.service');
+  }catch(error){
+    console.error(error);
+  }
+});
+
+/**
+app.post("/api/idle", async (req, res) => {
+  try{
+    console.log("Stopped Server");
+    child_process.execSync('sudo systemctl stop minecraft.service');
+  }catch(error){
+    console.error(error);
+  }
+});
+**/
+/**
+function idle() {
+   var url = "https://api.minetools.eu/ping/andreraspberry.ddns.net/25565";
+   $.getJSON(url, function(r) {
+      if(r.players.online == "0") {
+        idleVerify();
+      }
+      if(r.error) console.log("Esta Fechado");
+   });
+   var idleVerify = setTimeout(function() {
+     $.getJSON(url, function(r) {
+         if(r.players.online == "0") {
+	   child_process.execSync('sudo systemctl stop minecraft.service');
+	   console.log("Closed the server by inactivity");
+           window.location.reload();
+         }
+     });
+   }, 1 * 60 * 1000);  //Check if there are still no players after 30mins
+   setTimeout(idle, 5 * 60 * 1000);
+}
+**/
+function checkHourForStart() {
+  var date = new Date();
+  var current_hour = date.getHours();
+  if (current_hour >= 10) {
+    child_process.execSync('sudo systemctl start minecraft.service'); //Debug
+    //console.log("Time to wake up turning ON");  //Debug
+  }
+}
+setTimeout(checkHourForStart, 60 * 60 * 1000);
+
+checkHourForStart();
+//idle();
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://andreraspberry.ddns.net:${port}`)
+})
