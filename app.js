@@ -2,12 +2,13 @@ const express = require('express');
 const child_process = require('child_process');
 const app = express();
 const nodemailer = require('nodemailer');
+const fs = require('fs');
 const port = 80;
 'use strict';
 require('dotenv').config();
 var request = require('request');
 
-app.use(express.static('public'))
+app.use(express.static('public/'))
 
 app.get('/', (req, res) => {
   res.send('');
@@ -16,6 +17,8 @@ app.get('/', (req, res) => {
 app.post("/api/bash", async (req, res) => {
   try{
     child_process.execSync('sudo systemctl start minecraft.service');
+    var date = new Date();
+    fs.writeFileSync('/var/www/html/myapp/log.txt', 'Server Manually Turned ON at ' + date);
   }catch(error){
     console.error(error);
   }
@@ -42,6 +45,7 @@ app.post("/api/notify", async (req, res) => {
     if(err) {
       console.log(err);
     } else {
+      fs.writeFileSync('/var/www/html/myapp/log.txt', 'Email sent by: ' + req.body.sub);
       console.log('Email sent!');
     }
   });
@@ -63,12 +67,12 @@ setInterval(function() {
        console.log('Status:', res.statusCode);
      } else {
        try {
-         if(data.players.online == 0 && current_hour >= 22 || current_hour <= 10) {
+         if(data.players.online == 0 && (current_hour >= 22 || current_hour < 10)) {
            child_process.execSync('sudo systemctl stop minecraft.service');
-	   console.log("Shuting down due to inactivity");
+	   console.log("Shuting down due to inactivity at " + date);
+       	   fs.writeFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date);
          }
        } catch(err) {
-         console.log("Já está desligado");
        }
      }
    });
@@ -80,7 +84,8 @@ setInterval(function() {
   var current_hour = date.getHours();
   if (current_hour >= 10 && current_hour <= 22) {
     child_process.execSync('sudo systemctl start minecraft.service');
-    console.log("Time to wake up turning ON");  //Debug
+    console.log("Time to wake up turning ON às " + date);  //Debug
+    fs.writeFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date);
   }
 }, 60 * 60 * 1000);
 

@@ -1,5 +1,5 @@
 body,html{
-  background:url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FuCALVusJkPs%2Fmaxresdefault.jpg&f=1&nofb=1) no-repeat center center fixed;
+  background:url(https://i.pinimg.com/originals/a3/c8/3c/a3c83c1667a404ce8aefe9055731da22.jpg) no-repeat center center fixed;
   background-size:100%;
   background-width:100%;  
   background-position:absolute;
@@ -186,14 +186,13 @@ h1,h2{
 }
 
 .schedule {
-  border-radius:5px;
   font-family: sans-serif;
   position: absolute;
-  border: 3px solid #f1f1f1;
-  margin-right: 710px;
+  margin-right: 700px;
 }
 
 .schedule-container {
+  border-radius:5px;
   max-width: 250px;
   min-width: 250px;
   padding: 10px;
@@ -202,16 +201,17 @@ h1,h2{
 
 /* The popup form - hidden by default */
 .form-popup {
-  border-radius:5px;
   font-family: sans-serif;
   display: none;
   position: relative;
-  border: 3px solid #f1f1f1;
   margin-left: 750px;
 }
 
 /* Add styles to the form container */
 .form-container {
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.3);
   max-width: 300px;
   min-width: 300px;
   padding: 10px;
