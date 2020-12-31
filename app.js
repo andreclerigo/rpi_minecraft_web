@@ -48,14 +48,14 @@ app.post("/api/notify", async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'andreclerigo@gmail.com',
+        user: process.env.EMAIL,
         pass: process.env.PASSWORD
     }
   });
   
   let mailOptions = {
-    from: 'andreclerigo@gmail.com',
-    to:   'andreclerigo@gmail.com',
+    from: process.env.EMAIL,
+    to:   process.env.EMAIL,
     subject: 'Minecraft Notification from: ' + req.body.sub,
     text: req.body.cont
   };
