@@ -21,15 +21,20 @@ app.get('/', (req, res) => {
 app.engine('php', phpExpress.engine);
 app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
+
 app.get('/leaderboard', (req, res) => {
-  res.render(path.join(__dirname + '/public/stats.php'));
+  try {
+    res.render(path.join(__dirname + '/public/stats.php'));
+  }catch(error) {
+    console.log("Erro no php");
+  }
 })
 
 app.post("/api/bash", async (req, res) => {
   try{
     child_process.execSync('sudo systemctl start minecraft.service');
     var date = new Date();
-    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Server Manually Turned ON at ' + date);
+    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Server Manually Turned ON at ' + date + '\n');
   }catch(error){
     console.error(error);
   }
@@ -52,19 +57,19 @@ app.post("/api/notify", async (req, res) => {
         pass: process.env.PASSWORD
     }
   });
-  
+
   let mailOptions = {
     from: process.env.EMAIL,
     to:   process.env.EMAIL,
     subject: 'Minecraft Notification from: ' + req.body.sub,
-    text: req.body.cont
+    text: req.body.cont + '\nUser\'s Information: ' + req['headers']['user-agent']
   };
   
   transporter.sendMail(mailOptions, function(err, data) {
     if(err) {
       console.log(err);
     } else {
-      fs.appendFileSync('/var/www/html/myapp/log.txt', 'Email sent by: ' + req.body.sub);
+      fs.appendFileSync('/var/www/html/myapp/log.txt', 'Email sent by: ' + req.body.sub + '\n');
       console.log('Email sent!');
     }
   });
@@ -88,8 +93,7 @@ setInterval(function() {
        try {
          if(data.players.online == 0 && (current_hour >= 22 || current_hour < 10)) {
            child_process.execSync('sudo systemctl stop minecraft.service');
-	   console.log("Shuting down due to inactivity at " + date);
-       	   fs.appendFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date);
+       	   fs.appendFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date + '\n');
          }
        } catch(err) {
        }
@@ -103,12 +107,11 @@ setInterval(function() {
   var current_hour = date.getHours();
   if (current_hour >= 10 && current_hour <= 22) {
     child_process.execSync('sudo systemctl start minecraft.service');
-    console.log("Time to wake up turning ON às " + date);  //Debug
-    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date);
+    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date + '\n');
   }
 }, 60 * 60 * 1000);
 
 
 app.listen(port, () => {
-  console.log(`app listening at http://andreraspberry.ddns.net:${port}`)
+  console.log(`app listening at http://andreraspberry.ddns.net:${port}`);
 })
