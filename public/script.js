@@ -1,4 +1,4 @@
-var url = "https://api.minetools.eu/ping/andreraspberry.ddns.net/25565";
+var url = "https://api.minetools.eu/ping/andrerpi4.ddns.net/25565";
 
 ping();
 function ping() {
@@ -20,7 +20,7 @@ function ping() {
       var now = new Date();
       now = now.getHours();
       document.getElementById("buttonNotify").style.visibility="visible";
-      $('#rest').html("<b style='margin-top: 20%'>" + r.description + "</b>" +"<br><b>Players Online: </b>"+r.players.online+plist+info);
+      $('#rest').html("<b style='margin-top: 20%'>" + r.description.substring(2) + "</b>" +"<br><b>Players Online: </b>"+r.players.online+plist+info);
    });
 }
 var refreshInterval = setInterval(ping, 4 * 60 * 1000);  //Ping server every 4mins (client side)

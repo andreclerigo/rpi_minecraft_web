@@ -5,7 +5,7 @@ const app = express();
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 var path = require('path');
-const port = 80;
+const port = process.env.NODE_PORT || 80;
 var phpExpress = require('php-express')({
   binPath: 'php'
 });
@@ -13,7 +13,7 @@ var phpExpress = require('php-express')({
 require('dotenv').config();
 
 
-app.use(express.static('public/'))
+app.use(express.static('/var/www/html/myapp/public/'))
 app.get('/', (req, res) => {
   res.send('');
 })

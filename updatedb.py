@@ -54,7 +54,7 @@ def acessDatabase():
         port=3306,
         database="exampledb")
     cur = conn.cursor()
-    for i in range(0, 8):
+    for i in range(0, 12):
         '''
         cur.execute("INSERT INTO Leaderboard (id, NickHours, horas, NickDeaths, deaths) VALUES (?, ?, ?, ?, ?)",
                                                                                     (i,
