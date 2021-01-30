@@ -1,4 +1,4 @@
-var url = "https://api.minetools.eu/ping/andrerpi4.ddns.net/25565";
+var url = "https://api.minetools.eu/ping/andreraspberry.ddns.net/25565";
 
 ping();
 function ping() {

@@ -77,42 +77,39 @@ app.post("/api/notify", async (req, res) => {
 });
 
 setInterval(function() {
-   var url = 'https://api.minetools.eu/ping/andrerpi4.ddns.net/25565';
-   var date = new Date();
-   var current_hour = date.getHours();
+    var url = process.env.WEBSITE;
+    var date = new Date();
+    var current_hour = date.getHours();
 
-   request.get({
-     url: url,
-     json: true,
-     headers: {'User-Agent': 'request'}
-   }, (err, res, data) => {
-     if (err) {
-       console.log('Error:', err);
-     } else if (res.statusCode !== 200) {
-       console.log('Status:', res.statusCode);
-     } else {
-       try {
-         if(data.players.online == 0 && (current_hour >= 22 || current_hour < 10)) {
-           child_process.execSync('sudo systemctl stop minecraft.service');
-       	   fs.appendFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date + '\n');
-         }
-       } catch(err) {
-       }
+    request.get({
+      url: url,
+      json: true,
+      headers: {'User-Agent': 'request'}
+    }, (err, res, data) => {
+      if (err) {
+        console.log('Error:', err);
+      } else if (res.statusCode !== 200) {
+        console.log('Status:', res.statusCode);
+      } else if (current_hour >= 10 && current_hour <= 22) {
+        try {
+          if (data.error != null) {
+            child_process.execSync('sudo systemctl start minecraft.service');
+            fs.appendFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date + '\n');
+          }
+        } catch (err) {
+        }
+      } else {
+        try {
+          if(data.players.online == 0 && (current_hour >= 22 || current_hour < 10)) {
+            child_process.execSync('sudo systemctl stop minecraft.service');
+            fs.appendFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date + '\n');
+          }
+        } catch(err) {
+        }
      }
    });
 }, 30 * 60 * 1000);
 
-
-setInterval(function() {
-  var date = new Date();
-  var current_hour = date.getHours();
-  if (current_hour >= 10 && current_hour <= 22) {
-    child_process.execSync('sudo systemctl start minecraft.service');
-    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date + '\n');
-  }
-}, 60 * 60 * 1000);
-
-
 app.listen(port, () => {
-  console.log(`app listening at http://andrerpi4.ddns.net:${port}`);
+  console.log(`app listening at ` + process.env.IP + `http://andrerpi4.ddns.net:${port}`);
 })
