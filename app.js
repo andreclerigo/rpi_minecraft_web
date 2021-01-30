@@ -13,7 +13,7 @@ var phpExpress = require('php-express')({
 require('dotenv').config();
 
 
-app.use(express.static('/var/www/html/myapp/public/'))
+app.use(express.static('/var/www/html/myapp/public'))
 app.get('/', (req, res) => {
   res.send('');
 })
