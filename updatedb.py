@@ -4,7 +4,6 @@ import sys
 import json
 import operator
 import mariadb
-#os.system('python3 -m pip install {}'.format(sys.argv[1]))
 from os import listdir
 from os.path import isfile, join
 
@@ -23,7 +22,6 @@ for i in range(len(playerList)):
 
 hoursTops = {}
 deathsTops = {}
-# Create tops
 def createTops():
     for player in fileNames:
         path = dir_world + "stats/" + str(player)
@@ -37,7 +35,6 @@ def createTops():
         except:
             deaths = 0
 
-        # Debug
         # print(dictN.get(player[:-5]) + " tem " + str(hours) + " horas jogadas e já morreu " + str(deaths) + " vezes.")
         hoursTops[dictN.get(player[:-5])] = hours
         deathsTops[dictN.get(player[:-5])] = deaths
@@ -68,8 +65,7 @@ def acessDatabase():
                                                                                     list(sorted_h.values())[i],
                                                                                     list(sorted_d.keys())[i],
                                                                                     list(sorted_d.values())[i],
-                                                                                    i))
-                                                                            
+                                                                                    i))                                                                   
     conn.commit() 
     conn.close()                                        
 acessDatabase()

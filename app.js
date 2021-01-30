@@ -35,7 +35,7 @@ app.post("/api/bash", async (req, res) => {
   try{
     child_process.execSync('sudo systemctl start minecraft.service');
     var date = new Date();
-    fs.appendFileSync('/var/www/html/myapp/log.txt', 'Server Manually Turned ON at ' + date + '\n');
+    fs.appendFileSync('/var/www/html/myapp/debug.log', 'Server Manually Turned ON at ' + date + '\n');
   }catch(error){
     console.error(error);
   }
@@ -70,7 +70,7 @@ app.post("/api/notify", async (req, res) => {
     if(err) {
       console.log(err);
     } else {
-      fs.appendFileSync('/var/www/html/myapp/log.txt', 'Email sent by: ' + req.body.sub + '\n');
+      fs.appendFileSync('/var/www/html/myapp/debug.log', 'Email sent by: ' + req.body.sub + '\n');
       console.log('Email sent!');
     }
   });
@@ -94,7 +94,7 @@ setInterval(function() {
         try {
           if (data.error != null) {
             child_process.execSync('sudo systemctl start minecraft.service');
-            fs.appendFileSync('/var/www/html/myapp/log.txt', 'Time to wakeup turning ON at ' + date + '\n');
+            fs.appendFileSync('/var/www/html/myapp/debug.log', 'Time to wakeup turning ON at ' + date + '\n');
           }
         } catch (err) {
         }
@@ -102,7 +102,7 @@ setInterval(function() {
         try {
           if(data.players.online == 0 && (current_hour >= 22 || current_hour < 10)) {
             child_process.execSync('sudo systemctl stop minecraft.service');
-            fs.appendFileSync('/var/www/html/myapp/log.txt', 'Shutting down due to inactivity at ' + date + '\n');
+            fs.appendFileSync('/var/www/html/myapp/debug.log', 'Shutting down due to inactivity at ' + date + '\n');
           }
         } catch(err) {
         }
