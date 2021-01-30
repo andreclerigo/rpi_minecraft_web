@@ -111,5 +111,5 @@ setInterval(function() {
 }, 30 * 60 * 1000);
 
 app.listen(port, () => {
-  console.log(`app listening at ` + process.env.IP + `http://andrerpi4.ddns.net:${port}`);
+  console.log(`app listening at ` + process.env.IP + ` :${port}`);
 })
