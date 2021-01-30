@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
   res.send('');
 })
 
+app.set('views', './views');
 app.engine('php', phpExpress.engine);
 app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
@@ -76,7 +77,7 @@ app.post("/api/notify", async (req, res) => {
 });
 
 setInterval(function() {
-   var url = 'https://api.minetools.eu/ping/andreraspberry.ddns.net/25565';
+   var url = 'https://api.minetools.eu/ping/andrerpi4.ddns.net/25565';
    var date = new Date();
    var current_hour = date.getHours();
 
@@ -113,5 +114,5 @@ setInterval(function() {
 
 
 app.listen(port, () => {
-  console.log(`app listening at http://andreraspberry.ddns.net:${port}`);
+  console.log(`app listening at http://andrerpi4.ddns.net:${port}`);
 })

@@ -69,7 +69,7 @@ def acessDatabase():
                                                                                     list(sorted_d.keys())[i],
                                                                                     list(sorted_d.values())[i],
                                                                                     i))
-                                                                                    
+                                                                            
     conn.commit() 
     conn.close()                                        
 acessDatabase()
