@@ -5,7 +5,7 @@ const app = express();
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 var path = require('path');
-const ejs = require('ejs');
+var serveStatic = require('serve-static')
 const port = process.env.NODE_PORT || 80;
 var phpExpress = require('php-express')({
   binPath: 'php'
@@ -13,13 +13,13 @@ var phpExpress = require('php-express')({
 'use strict';
 require('dotenv').config();
 
-app.use(express.static('/var/www/html/myapp/public'))
+app.use(serveStatic('public', { 'index': ['index.html', 'index.htm'] }))
 app.get('/', function (req, res) {
   res.send('');
 })
 
 app.engine('php', phpExpress.engine);
-app.set('view engine', 'php');
+//app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
 
 app.get('/leaderboard', (req, res) => {
