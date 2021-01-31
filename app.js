@@ -25,6 +25,7 @@ app.all(/.+\.php$/, phpExpress.router);
 app.get('/leaderboard', (req, res) => {
   try {
     res.render(path.join(__dirname + '/public/stats.php'));
+    //res.render('/var/www/html/myapp/public/stats.php');
   }catch(error) {
     console.log("Erro no php");
   }
