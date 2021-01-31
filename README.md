@@ -15,7 +15,6 @@ myapp
 │   │   └── script.js  
 │   ├── maintenance.html  
 │   └── stats.php  
-├── python3 -> /usr/bin/python3  
 ├── README.md  
 └── updatedb.py  
 
