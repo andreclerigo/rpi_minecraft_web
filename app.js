@@ -18,15 +18,19 @@ app.get('/', function (req, res) {
   res.send('');
 })
 
+app.use((req,res,next) => {
+console.log(req.path);
+next();
+})
+
 app.engine('php', phpExpress.engine);
-//app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
 
 app.get('/leaderboard', (req, res) => {
   try {
     res.render(path.join(__dirname + '/public/stats.php'));
-    //res.render('/var/www/html/myapp/public/stats.php');
-  }catch(error) {
+
+   }catch(error) {
     console.log("Erro no php");
   }
 })
