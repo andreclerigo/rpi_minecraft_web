@@ -1,6 +1,7 @@
 # rpi_minecraft_web
 My little project on a home made minecraft server and website
 
+# Structure
 myapp  
 ├── app.js  
 ├── debug.log  
@@ -15,7 +16,6 @@ myapp
 │   │   └── script.js  
 │   ├── maintenance.html  
 │   └── stats.php  
-├── python3 -> /usr/bin/python3  
 ├── README.md  
 └── updatedb.py  
 
