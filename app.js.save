@@ -13,7 +13,7 @@ var phpExpress = require('php-express')({
 'use strict';
 require('dotenv').config();
 
-app.use(serveStatic('/var/www/html/myapp/public', { 'index': ['index.html', 'index.htm'] }))
+app.use(serveStatic('public', { 'index': ['index.html', 'index.htm'] }))
 app.get('/', function (req, res) {
   res.send('');
 })
