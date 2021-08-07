@@ -28,7 +28,7 @@ def createTops():
         with open(path, "r") as f:
             data = json.load(f)
 
-        hours = int(data["stats"]["minecraft:custom"]["minecraft:play_one_minute"] / 20 / 60 / 60)  # Converts ticks to hours
+        hours = int(data["stats"]["minecraft:custom"]["minecraft:play_time"] / 20 / 3600)  # Converts ticks to hours
         
         try:
             deaths = data["stats"]["minecraft:custom"]["minecraft:deaths"]
@@ -43,6 +43,9 @@ createTops()
 sorted_h = dict( sorted(hoursTops.items(), key=operator.itemgetter(1),reverse=True))
 sorted_d = dict( sorted(deathsTops.items(), key=operator.itemgetter(1),reverse=True))
 
+#print(sorted_h)
+#print(sorted_d)
+
 def acessDatabase():
     conn = mariadb.connect(
         user="exampleuser",
@@ -51,23 +54,23 @@ def acessDatabase():
         port=3306,
         database="exampledb")
     cur = conn.cursor()
-    for i in range(0, 12):
+    for i in range(0, 10):
         '''
         cur.execute("INSERT INTO Leaderboard (id, NickHours, horas, NickDeaths, deaths) VALUES (?, ?, ?, ?, ?)",
                                                                                     (i,
-                                                                                    list(sorted_h.keys())[i], 
+                                                                                    list(sorted_h.keys())[i],
                                                                                     list(sorted_h.values())[i],
                                                                                     list(sorted_d.keys())[i],
                                                                                     list(sorted_d.values())[i]))
         '''
         cur.execute("UPDATE Leaderboard SET NickHours=?, horas=?, NickDeaths=?, deaths=? WHERE id=?",
-                                                                                    (list(sorted_h.keys())[i], 
+                                                                                    (list(sorted_h.keys())[i],
                                                                                     list(sorted_h.values())[i],
                                                                                     list(sorted_d.keys())[i],
                                                                                     list(sorted_d.values())[i],
-                                                                                    i))                                                                   
-    conn.commit() 
-    conn.close()                                        
+										    i))
+    conn.commit()
+    conn.close()
 acessDatabase()
 
 sys.exit()
