@@ -1,0 +1,14 @@
+Description=Autostart nodejs website for Minecraft monitoring on system startup
+
+Wants=network.target
+After=syslog.target network-online.target
+
+[Service]
+Type=simple
+ExecStart=su - pi -c "/usr/bin/screen -dmS web bash -c 'sudo node /var/www/html/myapp/app.js'"
+Restart=on-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
