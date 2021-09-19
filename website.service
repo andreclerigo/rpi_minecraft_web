@@ -5,7 +5,7 @@ After=syslog.target network-online.target
 
 [Service]
 Type=simple
-ExecStart=su - pi -c "/usr/bin/screen -dmS web bash -c 'sudo node /var/www/html/myapp/app.js'"
+ExecStart=su - pi -c "/usr/bin/screen -dmS web bash -c 'cd /var/www/html/myapp; sudo node app.js'"
 Restart=on-failure
 RestartSec=10
 KillMode=process

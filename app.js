@@ -47,7 +47,7 @@ app.post("/api/bash", async (req, res) => {
 
 app.post("/api/update", async (req, res) => {
   try{
-    child_process.execSync('python3 updatedb.py');
+    child_process.execSync('python3 '+ process.cwd() + '/updatedb.py');
   }catch(error){
     console.error(error);
   }
@@ -69,7 +69,7 @@ app.post("/api/notify", async (req, res) => {
     subject: 'Minecraft Notification from: ' + req.body.sub,
     text: req.body.cont + '\nUser\'s Information: ' + req['headers']['user-agent']
   };
-  
+
   transporter.sendMail(mailOptions, function(err, data) {
     if(err) {
       console.log(err);
