@@ -24,7 +24,7 @@ next();
 })
 
 app.engine('php', phpExpress.engine);
-app.all(/((?=(a+))\2)+$/, phpExpress.router);
+app.all(/.+\.php$/, phpExpress.router);
 
 app.get('/leaderboard', (req, res) => {
   try {
