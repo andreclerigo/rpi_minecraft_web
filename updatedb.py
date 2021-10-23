@@ -3,11 +3,15 @@ import os
 import sys
 import json
 import operator
+import dotenv
 import mariadb
+from dotenv import load_dotenv
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, dirname
 
 dir_world = "/opt/minecraft/server/world/"
+dotenv_path = join(dirname(__file__),'.env')
+load_dotenv(dotenv_path)
 
 # Creating List of stats/*.json files
 fileNames = [f for f in listdir(dir_world + "stats/") if isfile(join(dir_world + "stats/", f))]
@@ -22,7 +26,7 @@ for i in range(len(playerList)):
 
 hoursTops = {}
 deathsTops = {}
-def createTops():
+def create_tops():
     for player in fileNames:
         path = dir_world + "stats/" + str(player)
         with open(path, "r") as f:
@@ -38,7 +42,7 @@ def createTops():
         # print(dictN.get(player[:-5]) + " tem " + str(hours) + " horas jogadas e já morreu " + str(deaths) + " vezes.")
         hoursTops[dictN.get(player[:-5])] = hours
         deathsTops[dictN.get(player[:-5])] = deaths
-createTops()
+create_tops()
 
 sorted_h = dict( sorted(hoursTops.items(), key=operator.itemgetter(1),reverse=True))
 sorted_d = dict( sorted(deathsTops.items(), key=operator.itemgetter(1),reverse=True))
@@ -46,10 +50,10 @@ sorted_d = dict( sorted(deathsTops.items(), key=operator.itemgetter(1),reverse=T
 #print(sorted_h)
 #print(sorted_d)
 
-def acessDatabase():
+def access_db():
     conn = mariadb.connect(
         user="exampleuser",
-        password="pimylifeup",
+        password=os.environ.get("DB_PASSWORD"),
         host="localhost",
         port=3306,
         database="exampledb")
@@ -71,6 +75,6 @@ def acessDatabase():
 										    i))
     conn.commit()
     conn.close()
-acessDatabase()
+access_db()
 
 sys.exit()

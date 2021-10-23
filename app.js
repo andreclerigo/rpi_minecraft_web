@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('request');
 const child_process = require('child_process');
-const app = express();
+let app = express();
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 var path = require('path');
@@ -10,8 +10,8 @@ const port = process.env.NODE_PORT || 80;
 var phpExpress = require('php-express')({
   binPath: 'php'
 });
-'use strict';
 require('dotenv').config();
+'use strict';
 
 app.use(serveStatic('/var/www/html/myapp/public', { 'index': ['index.html', 'index.htm'] }))
 app.get('/', function (req, res) {
@@ -24,12 +24,11 @@ next();
 })
 
 app.engine('php', phpExpress.engine);
-app.all(/.+\.php$/, phpExpress.router);
+app.all(/((?=(a+))\2)+$/, phpExpress.router);
 
 app.get('/leaderboard', (req, res) => {
   try {
     res.render(path.join(__dirname + '/public/stats.php'));
-
    }catch(error) {
     console.log("Erro no php");
   }
@@ -47,7 +46,7 @@ app.post("/api/bash", async (req, res) => {
 
 app.post("/api/update", async (req, res) => {
   try{
-    child_process.execSync('python3 '+ process.cwd() + '/updatedb.py');
+    child_process.execSync('python3 '+ process.cwd() + '/updatedb.py', { shell: false });
   }catch(error){
     console.error(error);
   }
@@ -100,7 +99,7 @@ setInterval(function() {
             child_process.execSync('sudo systemctl start minecraft.service');
             fs.appendFileSync('/var/www/html/myapp/debug.log', 'Time to wakeup turning ON at ' + date + '\n');
           }
-        } catch (err) {
+        } catch (err2) {
         }
       } else {
         try {
@@ -108,7 +107,7 @@ setInterval(function() {
             child_process.execSync('sudo systemctl stop minecraft.service');
             fs.appendFileSync('/var/www/html/myapp/debug.log', 'Shutting down due to inactivity at ' + date + '\n');
           }
-        } catch(err) {
+        } catch(err3) {
         }
      }
    });

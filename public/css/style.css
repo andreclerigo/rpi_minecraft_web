@@ -1,7 +1,6 @@
 body,html{
   background:url(https://i.pinimg.com/originals/a3/c8/3c/a3c83c1667a404ce8aefe9055731da22.jpg) no-repeat center center fixed;
   background-size:100%;
-  background-width:100%;  
   background-position:absolute;
   -webkit-background-size: cover;
   height:100%;
@@ -31,7 +30,6 @@ p {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  border: none;
   cursor: pointer;
   font-size: 16px;
 }
@@ -135,7 +133,6 @@ h1,h2{
   background-color: #555;
   color: #fff;
   text-align: center;
-  text-vertical-align: center;
   border-radius: 6px;
   padding: 0 0;
   position: absolute;
@@ -172,7 +169,6 @@ h1,h2{
   background-color: #FFFFFF;
   vertical-align: center;
   font-family: Roboto Mono;
-  border: none;
   color: #1768AC;
   padding: 15px 15px;
   margin-top: -20px;

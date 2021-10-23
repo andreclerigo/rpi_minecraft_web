@@ -16,12 +16,14 @@ async function updateDatabase() {
 </head>
 <body onload="updateDatabase()">
 <div class="card" style="width:480px; min-width:420px">
-  <div class="icon"><img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg"></div>
+  <div class="icon"><img alt="minecraft-logo" src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg"></div>
   <div class="header">
     <div class="image"> <img src="https://res.cloudinary.com/lmn/image/upload/e_sharpen:100/f_auto,fl_lossy,q_auto/v1/gameskinnyc/u/n/t/untitled-a5150.jpg" alt="" /> </div> 
       <h2>Server's Leaderboard</h2>
     </div>
 	  <?php
+      /*$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+      $dotenv->load();*/  
       $servername = "localhost";
       $username = "exampleuser";
       $password = "pimylifeup";
